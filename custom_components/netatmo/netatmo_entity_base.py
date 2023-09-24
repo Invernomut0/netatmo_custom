@@ -15,6 +15,7 @@ from homeassistant.helpers.entity import DeviceInfo, Entity
 from .const import DATA_DEVICE_IDS, DEFAULT_ATTRIBUTION, DOMAIN, SIGNAL_NAME
 from .data_handler import PUBLIC, NetatmoDataHandler
 
+import logging
 
 class NetatmoBase(Entity):
     """Netatmo entity base class."""
@@ -91,6 +92,9 @@ class NetatmoBase(Entity):
 
     @property
     def device_info(self) -> DeviceInfo:
+        LOG = logging.getLogger(__name__)
+        LOG.debug("SELF: " + self)
+        LOG.debug("MODEL: " + self._model)
         """Return the device info for the sensor."""
         manufacturer, model = DEVICE_DESCRIPTION_MAP[
             getattr(NetatmoDeviceType, self._model)
