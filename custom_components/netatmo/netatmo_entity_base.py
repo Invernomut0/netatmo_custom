@@ -94,6 +94,9 @@ class NetatmoBase(Entity):
     def device_info(self) -> DeviceInfo:
         LOG = logging.getLogger(__name__)
         LOG.debug("MODEL: " + self._model)
+        #Horrible patch....
+        if "BNTH" in self._model:
+            self._model = "BNTH"
         """Return the device info for the sensor."""
         manufacturer, model = DEVICE_DESCRIPTION_MAP[
             getattr(NetatmoDeviceType, self._model)

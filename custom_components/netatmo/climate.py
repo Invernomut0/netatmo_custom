@@ -158,9 +158,7 @@ class NetatmoThermostat(NetatmoBase, ClimateEntity):
         )
         _LOGGER.debug("MODEL: %s", self._room.climate_type)
         self._model: str = f"{self._room.climate_type}"
-        #Horrible patch....
-        if "BNTH" in self._model:
-            self._model = "BNTH"
+
         self._config_url = CONF_URL_ENERGY
 
         self._attr_name = self._room.name
