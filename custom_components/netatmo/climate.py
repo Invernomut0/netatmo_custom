@@ -156,7 +156,7 @@ class NetatmoThermostat(NetatmoBase, ClimateEntity):
                 },
             ]
         )
-
+        _LOGGER.debug("******* MODEL: %s", self._room.climate_type)
         self._model: str = f"{self._room.climate_type}"
 
         self._config_url = CONF_URL_ENERGY
@@ -173,7 +173,6 @@ class NetatmoThermostat(NetatmoBase, ClimateEntity):
         self._attr_hvac_modes = [HVACMode.AUTO, HVACMode.HEAT]
         if self._model == NA_THERM:
             self._attr_hvac_modes.append(HVACMode.OFF)
-
         self._attr_unique_id = f"{self._room.entity_id}-{self._model}"
 
     async def async_added_to_hass(self) -> None:
