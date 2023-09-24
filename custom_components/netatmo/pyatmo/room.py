@@ -80,6 +80,7 @@ class Room(NetatmoBase):
             self.features.add("humidity")
         elif "BNTH" in self.device_types:
             self.climate_type = DeviceType.BNTH
+            self.features.add("humidity")
 
         LOG.debug(
             "Room %s (climate type: %s, features: %s)",
