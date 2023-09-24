@@ -23,5 +23,5 @@ class BNCX(Module):
 class BNEU(Module):
     """BTicino external unit."""
 
-class BNTH(FirmwareMixin, BoilerMixin, WifiMixin, Module):
+class BNTH(Module):
     """Smarther thermostat."""
