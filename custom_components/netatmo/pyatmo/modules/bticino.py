@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import logging
 
-from ..modules.module import Module, Switch, FirmwareMixin, BoilerMixin, WifiMixin
+from ..modules.module import Module, Switch, FirmwareMixin, BoilerMixin, HumidityMixin
 
 LOG = logging.getLogger(__name__)
 
@@ -23,5 +23,6 @@ class BNCX(Module):
 class BNEU(Module):
     """BTicino external unit."""
 
-class BNTH(FirmwareMixin, BoilerMixin, WifiMixin, Module):
+
+class BNTH(FirmwareMixin, HumidityMixin, BoilerMixin, Module):
     """Smarther thermostat."""

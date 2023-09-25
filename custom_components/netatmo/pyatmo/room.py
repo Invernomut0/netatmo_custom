@@ -94,9 +94,20 @@ class Room(NetatmoBase):
         self.heating_power_request = raw_data.get("heating_power_request")
         self.humidity = raw_data.get("humidity")
         self.reachable = raw_data.get("reachable")
-        self.therm_measured_temperature = raw_data.get("therm_measured_temperature")
+        self.therm_measured_temperature = raw_data.get(
+            "therm_measured_temperature")
+        # FIX for BNTH setpoint temperature
         self.therm_setpoint_mode = raw_data.get("therm_setpoint_mode")
-        self.therm_setpoint_temperature = raw_data.get("therm_setpoint_temperature")
+        if self.therm_setpoint_mode == '' or self.therm_setpoint_mode is None:
+            self.therm_setpoint_mode = raw_data.get(
+                "cooling_setpoint_mode")
+            if self.therm_setpoint_mode is None:
+                self.therm_setpoint_mode = 'off'
+        self.therm_setpoint_temperature = raw_data.get(
+            "therm_setpoint_temperature")
+        if self.therm_setpoint_temperature == '' or self.therm_setpoint_temperature is None:
+            self.therm_setpoint_temperature = raw_data.get(
+                "cooling_setpoint_temperature")
 
     async def async_therm_manual(
         self,
@@ -134,6 +145,21 @@ class Room(NetatmoBase):
         temp: float | None = None,
         end_time: int | None = None,
     ) -> bool:
+        json_therm_set: dict[str, Any] = {
+            "rooms": [
+                {
+                    "id": self.entity_id,
+                    "cooling_setpoint_mode": mode,
+                },
+            ],
+        }
+
+        if temp:
+            json_therm_set["rooms"][0]["cooling_setpoint_temperature"] = temp
+
+        if end_time:
+            json_therm_set["rooms"][0]["cooling_setpoint_end_time"] = end_time
+
         json_therm_set: dict[str, Any] = {
             "rooms": [
                 {
