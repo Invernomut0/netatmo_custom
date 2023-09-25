@@ -64,7 +64,7 @@ class NetatmoScheduleSelect(NetatmoBase, SelectEntity):
 
         self._device_name = self._home.name
         self._attr_name = f"{self._device_name}"
-        _LOGGER.debug("!!! ***** DEVICE NAME: " + self._device_name)
+        self._model: str = "BNTH"
 
         self._config_url = CONF_URL_ENERGY
 
