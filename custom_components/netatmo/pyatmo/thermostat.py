@@ -50,7 +50,7 @@ class AbstractHomeData(ABC):
 
             for module in item["modules"]:
                 self.modules[home_id][module["id"]] = module
-
+            LOG.debug("***** - MODULE ID:" + self.modules[home_id][module["id"]])
             self.setpoint_duration[home_id] = item.get(
                 "therm_setpoint_default_duration",
             )
@@ -183,7 +183,7 @@ class AbstractHomeStatus(ABC):
             self.rooms[room["id"]] = room
 
         for module in self.raw_data.get("modules", []):
-            if module["type"] in {"NATherm1", "OTM"}:
+            if module["type"] in {"NATherm1", "OTM", "BNTH"}:
                 self.thermostats[module["id"]] = module
 
             elif module["type"] == "NRV":
