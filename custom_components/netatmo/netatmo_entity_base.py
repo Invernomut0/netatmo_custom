@@ -17,7 +17,6 @@ from .data_handler import PUBLIC, NetatmoDataHandler
 
 import logging
 
-
 class NetatmoBase(Entity):
     """Netatmo entity base class."""
 
@@ -94,7 +93,7 @@ class NetatmoBase(Entity):
     @property
     def device_info(self) -> DeviceInfo:
         LOG = logging.getLogger(__name__)
-        LOG.debug("MODEL: " + self._model)
+        LOG.debug("************************************************MODEL: " + self._model)
         # Horrible patch....
         if "BNTH" in self._model:
             self._model = "BNTH"

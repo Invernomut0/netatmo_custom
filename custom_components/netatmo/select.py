@@ -64,14 +64,13 @@ class NetatmoScheduleSelect(NetatmoBase, SelectEntity):
 
         self._device_name = self._home.name
         self._attr_name = f"{self._device_name}"
-        self._model: str = "BNTH"
 
+        self._model: str = "NATherm1"
         self._config_url = CONF_URL_ENERGY
 
         self._attr_unique_id = f"{self._home_id}-schedule-select"
 
-        self._attr_current_option = getattr(
-            self._home.get_selected_schedule(), "name")
+        self._attr_current_option = getattr(self._home.get_selected_schedule(), "name")
         self._attr_options = [
             schedule.name for schedule in self._home.schedules.values()
         ]
@@ -124,8 +123,7 @@ class NetatmoScheduleSelect(NetatmoBase, SelectEntity):
     @callback
     def async_update_callback(self) -> None:
         """Update the entity's state."""
-        self._attr_current_option = getattr(
-            self._home.get_selected_schedule(), "name")
+        self._attr_current_option = getattr(self._home.get_selected_schedule(), "name")
         self.hass.data[DOMAIN][DATA_SCHEDULES][self._home_id] = self._home.schedules
         self._attr_options = [
             schedule.name for schedule in self._home.schedules.values()

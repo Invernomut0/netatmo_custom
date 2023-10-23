@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import logging
 
-from ..modules.module import Module, Switch, FirmwareMixin, BoilerMixin, HumidityMixin
+from ..modules.module import BoilerMixin, FirmwareMixin, HumidityMixin, Module, Switch
 
 LOG = logging.getLogger(__name__)
 
@@ -24,5 +24,37 @@ class BNEU(Module):
     """BTicino external unit."""
 
 
-class BNTH(FirmwareMixin, HumidityMixin, BoilerMixin, Module):
-    """Smarther thermostat."""
+class BNCS(Module):
+    """BTicino camera."""
+
+
+class BNXM(Module):
+    """BTicino X meter."""
+
+
+class BNMS(Module):
+    """BTicino motorized shade."""
+
+
+class BNAS(Module):
+    """BTicino automatic shutter."""
+
+
+class BNAB(Module):
+    """BTicino automatic blind."""
+
+
+class BNMH(Module):
+    """BTicino automatic blind."""
+
+
+class BNTH(FirmwareMixin, BoilerMixin, HumidityMixin, Module):
+    """BTicino thermostat."""
+
+
+class BNFC(Module):
+    """BTicino fan coil."""
+
+
+class BNTR(Module):
+    """BTicino radiator thermostat."""

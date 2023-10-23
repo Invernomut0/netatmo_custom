@@ -1,8 +1,8 @@
 """Module to represent a Netatmo room."""
 from __future__ import annotations
 
-import logging
 from dataclasses import dataclass
+import logging
 from typing import TYPE_CHECKING, Any
 
 from .const import FROSTGUARD, HOME, MANUAL, SETROOMTHERMPOINT_ENDPOINT, RawData
@@ -41,8 +41,9 @@ class Room(NetatmoBase):
         room: dict[str, Any],
         all_modules: dict[str, Module],
     ) -> None:
+        """Initialize a Netatmo room instance."""
+
         super().__init__(room)
-        LOG.debug("Adding room %s to home %s", room, home.entity_id)
         self.home = home
         self.modules = {
             m_id: m
@@ -54,6 +55,8 @@ class Room(NetatmoBase):
         self.evaluate_device_type()
 
     def update_topology(self, raw_data: RawData) -> None:
+        """Update room topology."""
+
         self.name = raw_data["name"]
         self.modules = {
             m_id: m
@@ -61,9 +64,10 @@ class Room(NetatmoBase):
             if m_id in raw_data.get("module_ids", [])
         }
         self.evaluate_device_type()
-        LOG.debug("Room %s climate type: %s", self.name, self.climate_type)
 
     def evaluate_device_type(self) -> None:
+        """Evaluate the device type of the room."""
+
         for module in self.modules.values():
             self.device_types.add(module.device_type)
             if module.device_category is not None:
@@ -82,20 +86,13 @@ class Room(NetatmoBase):
             self.climate_type = DeviceType.BNTH
             self.features.add("humidity")
 
-        LOG.debug(
-            "Room %s (climate type: %s, features: %s)",
-            self.name,
-            self.climate_type,
-            self.features,
-        )
-
     def update(self, raw_data: RawData) -> None:
-        LOG.debug("Room %s update: %s", self.name, raw_data)
+        """Update room data."""
+
         self.heating_power_request = raw_data.get("heating_power_request")
         self.humidity = raw_data.get("humidity")
         self.reachable = raw_data.get("reachable")
-        self.therm_measured_temperature = raw_data.get(
-            "therm_measured_temperature")
+        self.therm_measured_temperature = raw_data.get("therm_measured_temperature")
         # FIX for BNTH setpoint temperature
         self.therm_setpoint_mode = raw_data.get("therm_setpoint_mode")
         if self.therm_setpoint_mode == '' or self.therm_setpoint_mode is None:
@@ -114,12 +111,18 @@ class Room(NetatmoBase):
         temp: float | None = None,
         end_time: int | None = None,
     ) -> None:
+        """Set room temperature set point to manual."""
+
         await self.async_therm_set(MANUAL, temp, end_time)
 
     async def async_therm_home(self, end_time: int | None = None) -> None:
+        """Set room temperature set point to home."""
+
         await self.async_therm_set(HOME, end_time=end_time)
 
     async def async_therm_frostguard(self, end_time: int | None = None) -> None:
+        """Set room temperature set point to frostguard."""
+
         await self.async_therm_set(FROSTGUARD, end_time=end_time)
 
     async def async_therm_set(
@@ -129,6 +132,7 @@ class Room(NetatmoBase):
         end_time: int | None = None,
     ) -> None:
         """Set room temperature set point."""
+
         mode = MODE_MAP.get(mode, mode)
 
         if "NATherm1" in self.device_types or (
@@ -145,20 +149,7 @@ class Room(NetatmoBase):
         temp: float | None = None,
         end_time: int | None = None,
     ) -> bool:
-        json_therm_set: dict[str, Any] = {
-            "rooms": [
-                {
-                    "id": self.entity_id,
-                    "cooling_setpoint_mode": mode,
-                },
-            ],
-        }
-
-        if temp:
-            json_therm_set["rooms"][0]["cooling_setpoint_temperature"] = temp
-
-        if end_time:
-            json_therm_set["rooms"][0]["cooling_setpoint_end_time"] = end_time
+        """Set room temperature set point (OTM)."""
 
         json_therm_set: dict[str, Any] = {
             "rooms": [
@@ -184,6 +175,7 @@ class Room(NetatmoBase):
         end_time: int | None = None,
     ) -> None:
         """Set room temperature set point (NRV, NATherm1)."""
+
         post_params = {
             "home_id": self.home.entity_id,
             "room_id": self.entity_id,
