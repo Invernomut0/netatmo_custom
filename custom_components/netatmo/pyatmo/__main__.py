@@ -1,4 +1,3 @@
-"""Main entry point for pyatmo CLI."""
 import os
 import sys
 from warnings import warn
@@ -22,7 +21,6 @@ warn(f"The module {__name__} is deprecated.", DeprecationWarning, stacklevel=2)
 
 def tty_print(message: str) -> None:
     """Print to stdout if in an interactive terminal."""
-
     if sys.stdout.isatty():
         print(message)
 
