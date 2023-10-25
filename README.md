@@ -14,5 +14,5 @@ In order to use the custom component please follow the steps below:
 1. Remove the official integration
 2. Install HACS
 3. Restart HA
-4. Add the custom integration repo https://github.com/cgtobi/netatmo_custom
-5. Add the Netatmo integration
+4. Add the custom integration repo https://github.com/Invernomut0/netatmo_custom/
+5. 5. Add the Netatmo integration
