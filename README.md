@@ -1,4 +1,4 @@
-# Netatmo component [ALPHA]
+# Netatmo component [ALPHA] for BNTH Devices
 
 **Based on awesome work of Cgtobi**
 
