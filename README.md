@@ -16,3 +16,13 @@ In order to use the custom component please follow the steps below:
 3. Restart HA
 4. Add the custom integration repo https://github.com/Invernomut0/netatmo_custom/
 5.  Add the Netatmo integration
+
+---
+
+Humidity:
+
+![Alt text](res/Humidity.jpeg?raw=true "Humidity")
+
+Thermostats:
+
+![Alt text](res/Therm.jpeg?raw=true "Therm")
